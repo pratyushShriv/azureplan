@@ -24,7 +24,7 @@ steps:
     
 
 # Updates the Test Cases and Test Runs and link to test cases
-- script: python utils/azureDevOps.py results/execution-report.xml
+- script: python Utils/azureDevOps.py results/execution-report.xml
   displayName: 'Publish Test Results'
   env:
     PROJECT_NAME: $(PROJECT_NAME)
@@ -33,9 +33,15 @@ steps:
     PLAN_ID: $(PLAN_ID)
     SUITE_ID: $(SUITE_ID)
 
-# Optional step to store the execution reports
+# Optional Step to add run to Test Run (NOTE: It does not link the executions)
 - task: PublishBuildArtifacts@1
   inputs:
     PathtoPublish: 'results'
     ArtifactName: 'results'
     publishLocation: 'Container'
+
+#Optional Task to publish JUNIT results
+- task: PublishTestResults@2
+  inputs:
+    testResultsFormat: 'JUnit'
+    testResultsFiles: '**/results/execution-report.xml'
