@@ -42,9 +42,9 @@ Generate a Virtuoso Token by following the instructions [here](https://docs.virt
 
 ## Executing the pipeline
 
-1 - Create a new git repository;
-2 - Add the contents of the root folder to the git repository;
-3 - Copy the azure-pipelines.yml to the root of the folder;
-4 - Add all the required environment variables;
-5 - Adjust the virtuoso.robot file in the **Test** folder;
+1. Create a new git repository;
+2. Add the contents of the root folder to the git repository;
+3. Copy the azure-pipelines.yml to the root of the folder;
+4. Add all the required environment variables;
+5. Adjust the virtuoso.robot file in the **Test** folder;
 
