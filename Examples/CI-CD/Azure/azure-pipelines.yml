@@ -33,7 +33,7 @@ steps:
     PLAN_ID: $(PLAN_ID)
     SUITE_ID: $(SUITE_ID)
 
-# Optional Step to add run to Test Run (NOTE: It does not link the executions)
+# Optional step to store the execution reports
 - task: PublishBuildArtifacts@1
   inputs:
     PathtoPublish: 'results'
