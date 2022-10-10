@@ -39,8 +39,8 @@ class VirtuosoApi(object):
         self._set_auth_header()
 
     def make_post_request(self, url: str, payload: object, retries: int = 0) -> json:
-        url = self.api_url + url
-        response = requests.post(url, headers=self.headers, json=payload)
+        full_url = self.api_url + url
+        response = requests.post(full_url, headers=self.headers, json=payload)
         if response.status_code != 200:
             retries += 1 
             # Retry 3 times if the status code is not 200
@@ -57,8 +57,8 @@ class VirtuosoApi(object):
             raise Exception("Api response is not parsable {}".format(response.__dict__))
 
     def make_get_request(self, url: str, retries: int = 0) -> json:
-        url = self.api_url + url
-        response = requests.get(url, headers=self.headers)
+        full_url = self.api_url + url
+        response = requests.get(full_url, headers=self.headers)
         if response.status_code != 200:
             retries += 1 
             # Retry 3 times if the status code is not 200
@@ -170,5 +170,5 @@ class VirtuosoApi(object):
             url = "/plans/executions/{}/execute?envelope=false".format(plan_id)
             payload = {}
             execution = self.api.make_post_request(url, payload)
-            # TODO: WTF!!! the plan has can have multiple jobs?
+            # TODO: The plan has can have multiple jobs
             return next(iter(execution["jobs"].keys()))
