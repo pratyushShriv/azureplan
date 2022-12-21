@@ -18,7 +18,6 @@ steps:
 # Run the Robot framework Tests
 - script: robot --rpa -d results -x execution-report.xml Test/virtuoso.robot
   displayName: 'Run Virtuoso Test'
-  continueOnError: true
   env:
     VIRTUOSO_TOKEN: $(VIRTUOSO_TOKEN)
     
@@ -42,6 +41,7 @@ steps:
 
 #Optional Task to publish JUNIT results
 - task: PublishTestResults@2
+  condition: succeededOrFailed()
   inputs:
     testResultsFormat: 'JUnit'
     testResultsFiles: '**/results/execution-report.xml'
