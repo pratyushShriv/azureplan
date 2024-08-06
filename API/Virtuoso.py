@@ -75,14 +75,22 @@ class VirtuosoApi(object):
             raise Exception("Api response is not parsable {}".format(response.__dict__))
 
 
-    def check_execution_outcome(self, execution_id: int) -> str:
-        finished_status = ["FINISHED", "CANCELED", "FAILED"]
-        url = "/executions/{}/status?envelope=false".format(execution_id)
+    def check_execution_outcome(self, execution_ids: list) -> dict:
+    finished_status = ["FINISHED", "CANCELED", "FAILED"]
+    outcomes = {}
+    
+    for execution_id in execution_ids:
+        url = f"/executions/{execution_id}/status?envelope=false"
         execution = self.make_get_request(url)
+        
         while not execution["status"] in finished_status:
             execution = self.make_get_request(url)
             sleep(self._request_delay)
-        return execution["outcome"]
+        
+        outcomes[execution_id] = execution["outcome"]
+    
+    return outcomes
+
 
     class Goal(object):
         def __init__(self, virtuoso_api: str) -> None:
@@ -171,4 +179,6 @@ class VirtuosoApi(object):
             payload = {}
             execution = self.api.make_post_request(url, payload)
             # TODO: The plan has can have multiple jobs
-            return next(iter(execution["jobs"].keys()))
+            # return next(iter(execution["jobs"].keys()))
+            return [job["id"] for job in execution["item"]["jobs"].values()]
+
