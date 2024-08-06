@@ -38,13 +38,14 @@ class Virtuoso ():
         if not execution_id:
             raise Exception("Unable to run Goal {} in project {}".format(goal_id, self.project_id))
         return execution_id
-
+        
     def run_virtuoso_plan(self, plan_id):
-        execution_id = self.api.plan.execute_plan(plan_id)
-        if not execution_id:
-            raise Exception("Unable to run Plan {} in project {}".format(plan_id, self.project_id))
-        return execution_id
+    execution_ids = self.api.plan.execute_plan(plan_id)
+    if not execution_ids:
+        raise Exception(f"Unable to run Plan {plan_id} in project {self.project_id}")
+    return execution_ids
 
+    
     def check_virtuoso_execution_outcome(self, execution_id, expected_outcome):
         execution_outcome = self.api.check_execution_outcome(execution_id)
         check_outcome =  execution_outcome == expected_outcome
